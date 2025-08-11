@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "jagdhelfer-burgenland-b5822"
+  },
+  "targets": {
+    "jagdhelfer-burgenland-b5822": {
+      "hosting": {
+        "prod": [
+          "jagdhelfer-burgenland-b5822"
+        ],
+        "test": [
+          "jagdhelfer-v3"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

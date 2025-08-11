@@ -1,0 +1,31 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": [
+    {
+      "target": "prod",
+      "public": "dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }],
+      "headers": [
+        {
+          "source": "/service-worker.js",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+        }
+      ]
+    },
+    {
+      "target": "test",
+      "public": "dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }],
+      "source": "/service-worker.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Expires", "value": "0" }
+      ]
+    }
+  ]
+}
