@@ -22,12 +22,18 @@
         />
       </v-col>
       <v-col cols="12">
+        <v-radio-group v-model="region" class="mt-1" hide-details>
+          <v-radio label="Burgenland" :value="'burgenland'" />
+          <v-radio label="Steiermark" :value="'styria'" />
+        </v-radio-group>
+      </v-col>
+      <v-col cols="12">
         <v-btn
           block
           color="primary"
           :loading="sessionStore.updateState === 'fetching'"
           @click="() => {
-            sessionStore.updateSettings({email})
+            sessionStore.updateSettings({email, region})
             sessionStore.updateDisplayName({displayName});
           }
           "
@@ -45,6 +51,7 @@
   const sessionStore = useSessionStore();
   const email = ref(sessionStore.contactMail);
   const displayName = ref(sessionStore.user.displayName);
+  const region = ref(sessionStore.settings.region);
   const rules = {
     email: value => {
       const pattern =

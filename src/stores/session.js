@@ -130,16 +130,18 @@ export const useSessionStore = defineStore('session', {
           this.signinState = 'error';
         });
     },
-    async updateSettings ({ email }) {
+    async updateSettings ({ email, region }) {
       this.updateState = 'fetching';
       const settings = {
         ...this.settings,
         to_email: email,
+        region,
       };
       try {
         await setDoc(doc(db, 'settings', this.user.uid), settings);
         this.updateState = 'success';
         this.updateError = null;
+        this.settings = settings;
         this.contactMail = settings.to_email;
       } catch (error) {
         console.error(error);
