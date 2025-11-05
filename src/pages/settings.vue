@@ -22,9 +22,11 @@
         />
       </v-col>
       <v-col cols="12">
+        <v-card-subtitle>Bundesland</v-card-subtitle>
         <v-radio-group v-model="region" class="mt-1" hide-details>
           <v-radio label="Burgenland" :value="'burgenland'" />
           <v-radio label="Steiermark" :value="'styria'" />
+          <v-radio label="Niederösterreich" :value="'loweraustria'" />
         </v-radio-group>
       </v-col>
       <v-col cols="12">

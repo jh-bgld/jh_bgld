@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-card-title>Schusszeiten</v-card-title>
+    <v-card-subtitle>Quelle: <a class="text-decoration-none" :href="currentSource.link">{{ currentSource.linkName }}</a></v-card-subtitle>
     <v-tabs v-model="tab" background-color="primary" fixed-tabs>
       <v-tab value="one">Nach Wildart</v-tab>
       <v-tab value="two">Nach Datum</v-tab>
@@ -136,6 +137,14 @@
   }
 
 
+  const currentSource = computed(() => {
+    const times = timesTotal.find(p => p.region == region.value);
+    if(times) {
+      return times.source;
+    }
+    return '';
+  })
+
   const species = computed(() => {
     const times = timesTotal.find( p => p.region == region.value);
     return times.times.map(entry => {
@@ -183,8 +192,6 @@
     ];
   })
   const classes = computed(() => {
-
-
     let classes = undefined;
     const times = timesTotal.find( p => p.region == region.value);
     if (tab.value === 'one') {
@@ -228,10 +235,11 @@
                 };
               }
             } else {
-              return {
-                title:
-                  time.wildArt + (klasse.klasse ? `, ${klasse.klasse}` : ''),
-              };
+              if(!time.note || time.note && !time.note.includes('geschont'))
+                return {
+                  title:
+                    time.wildArt + (klasse.klasse ? `, ${klasse.klasse}` : ''),
+                };
             }
           });
         } else {
@@ -257,11 +265,13 @@
               ];
             }
           } else {
-            return [
-              {
-                title: time.wildArt,
-              },
-            ];
+
+            if(!time.note || time.note && !time.note.includes('geschont'))
+              return [
+                {
+                  title: time.wildArt,
+                },
+              ];
           }
         }
       });
@@ -278,7 +288,528 @@
 
 
   const timesTotal = [
+    {
+      region: 'loweraustria',
+      source: {
+        linkName: 'Jagdverband NÖ',
+        link: 'https://www.noejagdverband.at/wp-content/uploads/Schuszzeiten-NOE-2024-1.pdf',
+      },
+      times: [
+        {
+          wildArt: 'Adler',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Alpenschneehase',
+          category: 4,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Auerhenne',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Auerhahn',
+          category: 3,
+          start: '01.05.',
+          end: '31.05.',
+          note: 'In geraden Jahren - NÖ Auer- und Birkhahnen-Verordnung',
+        },
+        {
+          wildArt: 'Bär',
+          category: 2,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Wolf',
+          category: 2,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Birkhahn',
+          category: 3,
+          start: '01.05.',
+          end: '31.05.',
+          note: 'In ungeraden Jahren - NÖ Auer- und Birkhahnen-Verordnung',
+        },
+        {
+          wildArt: 'Bläßhuhn',
+          category: 3,
+          start: '01.08.',
+          end: '28.02.',
+        },
+        {
+          wildArt: 'Mäusebussard',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Dachs',
+          category: 2,
+          start: '16.06.',
+          end: '31.01.',
+        },
+        {
+          wildArt: 'Eichelhäher',
+          category: 3,
+          start: '01.08.',
+          end: '15.03.',
+          note: 'Bezirks-Verordnung beachten',
+        },
+        {
+          wildArt: 'Elster',
+          category: 3,
+          start: '01.08.',
+          end: '15.03.',
+          note: 'Bezirks-Verordnung beachten',
+        },
+        {
+          wildArt: 'Eulen',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Falken',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Fasane',
+          category: 3,
+          start: '01.10.',
+          end: '31.12.',
+          note: 'Abweichungen durch bezirksweise Regelungen möglich',
+        },
+        {
+          wildArt: 'Feldhase',
+          category: 4,
+          start: '01.10.',
+          end: '31.12.',
+          note: ' In Weingärten und in den an Weingärten angrenzenden Grundflächen bis zu einer Tiefe von etwa 200 m sowie in Weingartenrieden in den von Weingärten ganz oder teilweise umschlossenen Grundflächen: 01. 10. - 31. 01.',
+        },
+        {
+          wildArt: 'Fuchs',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Geier',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Graureiher',
+          category: 3,
+          note: 'Ganzjährig geschont - NÖ Kormoran und Graureiher -Verordnung',
+        },
+        {
+          wildArt: 'Habicht',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Haselhahn',
+          category: 3,
+          start: '01.09.',
+          end: '31.10.',
+        },
+        {
+          wildArt: 'Haselhenne',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Steppeniltis',
+          category: 2,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Waldiltis',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Kolkrabe',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Kormoran',
+          category: 3,
+          note: 'Ganzjährig geschont - NÖ Kormoran und Graureiher -Verordnung',
+        },
+        {
+          wildArt: 'Krammetsvogel',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Milane',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Edelmarder',
+          category: 2,
+          start: '01.11.',
+          end: '28.02.',
+        },
+        {
+          wildArt: 'Steinmarder',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Marderhund',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Luchs',
+          category: 2,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Elch',
+          category: 1,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Muffelwild',
+          category: 1,
+          start: '01.06.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Murmeltier',
+          category: 4,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Nebelkrähe',
+          category: 3,
+          start: '01.07.',
+          end: '31.03.',
+          note: 'Bezirks-Verordnung beachten',
+        },
+        {
+          wildArt: 'Rabenkrähe',
+          category: 3,
+          start: '01.07.',
+          end: '31.03.',
+          note: 'Bezirks-Verordnung beachten',
+        },
+        {
+          wildArt: 'Rackelhahn Mai',
+          category: 3,
+          start: '01.05.',
+          end: '31.05.',
+        },
+        {
+          wildArt: 'Rackelhahn Winter',
+          category: 3,
+          start: '01.10.',
+          end: '28.03.',
+        },
+        {
+          wildArt: 'Rackelhenne',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Rebhuhn',
+          category: 3,
+          start: '21.09.',
+          end: '30.11.',
+          note: 'Abweichungen durch bezirksweise Regelungen möglich',
+        },
+        {
+          wildArt: 'Schneehuhn',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Schwäne',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Sperber',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Steinhuhn',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Taucher',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Trappen',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Wachtel',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Sikawild',
+          category: 1,
+          klassen: [
+            {
+              klasse: 'Hirsch klasse I, II, III',
+              start: '01.09.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'Schmalspießer',
+              start: '01.05.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'Schmaltier',
+              start: '01.05.',
+              end: '15.01.',
+            } ,
+            {
+              klasse: 'sonstige Tiere',
+              start: '01.07.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'Kalb',
+              start: '01.07.',
+              end: '15.01.',
+            },
+
+
+          ],
+        },
+        {
+          wildArt: 'Rehwild',
+          category: 1,
+          klassen: [
+            {
+              klasse: 'Älterer Bock',
+              start: '16.05.',
+              end: '15.10.',
+            },
+            {
+              klasse: 'Jährlingsbock',
+              start: '16.04.',
+              end: '15.10.',
+            },
+            {
+              klasse: 'Schmalgais',
+              start: '16.04.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'sonstige Gaisen u. Kitze',
+              start: '16.08.',
+              end: '31.12.',
+            },
+          ],
+        },
+        {
+          wildArt: 'Rotwild',
+          category: 1,
+          klassen: [
+            {
+              klasse: 'Hirsch Klasse I, II',
+              start: '01.08.',
+              end: '30.11.',
+            },
+            {
+              klasse: 'Hirsch Klasse III',
+              start: '01.08.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'Schmalspießer',
+              start: '01.05.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'Schmaltier',
+              start: '01.05.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'sonstige Tiere',
+              start: '01.07.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'Kalb',
+              start: '01.07.',
+              end: '31.12.',
+            },
+          ],
+        },
+        {
+          wildArt: 'Gamswild',
+          category: 1,
+          klassen: [
+            {
+              klasse: 'Bock Klasse I, II u. III',
+              start: '01.07.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'Gais(III)',
+              start: '01.07.',
+              end: '31.12.',
+            },
+            {
+              klasse: 'sonstige Gaisen und Kitze',
+              start: '01.08.',
+              end: '31.12.',
+            },
+          ],
+        },
+        {
+          wildArt: 'Damwild',
+          category: 1,
+          klassen: [
+            {
+              klasse: 'Hirsch Klasse I, II u. III',
+              start: '01.09.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'Schmalspießer',
+              start: '01.05.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'Schmaltier',
+              start: '01.05.',
+              end: '15.01.',
+            },
+            {
+              klasse: 'sonstige Tiere u. Kalb',
+              start: '01.09.',
+              end: '15.01.',
+            },
+          ],
+        },
+        {
+          wildArt: 'Steinwild',
+          category: 1,
+          start: '01.08.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Waldschnepfe',
+          category: 3,
+          start: '16.09.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Waschbär',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Wiesel',
+          category: 2,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Stockente',
+          cateogry: 3,
+          start: '01.09.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Krick-, Knäk-, Pfeif-, Schnatter-, Spieß-, Löffel-, Tafel-, Reiher-, Schellente',
+          category: 3,
+          start: '01.10.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Grau- u. Saatganzs',
+          category: 3,
+          start: '01.08.',
+          end: '31.01.',
+        },
+        {
+          wildArt: 'andere Gänse',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Wildkaninchen',
+          category: 4,
+          start: '01.01.',
+          end: '31.12.',
+        },
+        {
+          wildArt: 'Hohltaube',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Ringeltaube',
+          category: 3,
+          start: '01.09.',
+          end: '31.01.',
+        },
+        {
+          wildArt: 'Türkentaube',
+          category: 3,
+          start: '15.09.',
+          end: '31.01.',
+        },
+        {
+          wildArt: 'Turteltaube',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Weihen',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Wildkatze',
+          category: 2,
+          note: 'Ganzjährig geschont',
+        },
+        {
+          wildArt: 'Wildschwein',
+          category: 1,
+          start: '01.01.',
+          end: '31.12.',
+          note: 'Führende Bache 16.07. - 15.02.',
+        },
+        {
+          wildArt: 'Wildtruthahn',
+          category: 3,
+          note: 'Ganzjährig geschont',
+        },
+      ],
+    },
     { region: 'styria',
+      source: {
+        linkName: 'Die Steirische Jagd',
+        link: 'https://www.jagd-stmk.at/jagd-in-der-steiermark/jagdzeiten/',
+      },
       times: [
         {
           wildArt: 'Rotwild',
@@ -347,8 +878,6 @@
               start: '01.04.',
               end: '31.03.',
             },
-
-
           ],
         },
         {
@@ -555,6 +1084,10 @@
 
 
       region: 'burgenland',
+      source: {
+        linkName: 'Jagd Burgenland',
+        link: 'https://www.jagd-burgenland.at/jagd/info/schusszeiten/',
+      },
       times: [
         {
           wildArt: 'Schwarzwild',
@@ -758,6 +1291,7 @@
       ],
     },
   ]
+
 
   watch(selectedCategory, (newVal, oldVal) => {
     if (newVal !== oldVal) {
