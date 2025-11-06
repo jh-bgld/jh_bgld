@@ -20,13 +20,22 @@
               <v-btn
                 v-if="recipe.sourceInstagram"
                 aria-label="Quelle öffnen"
-                :href="recipe.sourceInstagram"
                 icon
                 rel="noopener"
-                target="_blank"
                 title="Quelle öffnen"
+                @click="trackClick(recipe.sourceInstagram)"
               >
                 <v-icon color="#E1306C">mdi-instagram</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="recipe.sourceWeb"
+                aria-label="Quelle öffnen"
+                icon
+                rel="noopener"
+                title="Quelle öffnen"
+                @click="trackClick(recipe.sourceWeb)"
+              >
+                <v-icon color="#E1306C">mdi-open-in-new</v-icon>
               </v-btn>
             </v-row>
           </v-card-text>
@@ -42,9 +51,18 @@
 
 <script setup>
   import { useRecipesStore } from '@/stores/recipes';
+  import { analytics,logEvent } from '@/firebase/init.js';
   const recipesStore = useRecipesStore();
 
   onMounted(async () => {
     await recipesStore.getRecipes();
   })
+  const trackClick = source => {
+    logEvent(analytics, 'source-Link-clicked', {
+      site: source,
+    })
+
+    // Then open the external link
+    window.open(source, '_blank')
+  }
 </script>
